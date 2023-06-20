@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import CriptosImage from "./assets/img/imagen-criptos.png";
+import Form from "./components/Form";
 
 const Container = styled.div`
     max-width: 900px;
@@ -48,6 +49,8 @@ function App() {
 
             <div>
                 <Heading>Cotiza Criptomonedas al Instante</Heading>
+
+                <Form />
             </div>
         </Container>
     );
