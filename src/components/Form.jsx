@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import useSelectCurrency from "../hooks/useSelectCurrency";
 import { CURRENCIES } from "../data/currencies";
 import { useEffect, useState } from "react";
+import Error from "./Error";
 
 const InputSubmit = styled.input`
     background-color: #9497FF;
@@ -27,6 +28,7 @@ const API_URL = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&
 const Form = () => {
     /* ----- States ----- */
     const [cryptos, setCryptos] = useState([]);
+    const [error, setError] = useState(false);
 
     /* ----- Custom Hooks ----- */
     const [currency, SelectCurrency] = useSelectCurrency('Elige tu moneda', CURRENCIES);
@@ -55,17 +57,31 @@ const Form = () => {
         setCryptos(array_cryptos);
     };
 
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+        if ([currency, crypto].includes('')) {
+            setError(true);
+            return;
+        }
+
+        setError(false);
+    };
+
     return (
-        <form>
-            <SelectCurrency />
+        <>
+            {error && <Error>Todos los campos son obligatorios 😾</Error>}
+            <form onSubmit={onSubmit}>
+                <SelectCurrency />
 
-            <SelectCrypto />
+                <SelectCrypto />
 
-            <InputSubmit
-                type="submit"
-                value="Cotizar"
-            />
-        </form>
+                <InputSubmit
+                    type="submit"
+                    value="Cotizar"
+                />
+            </form>
+        </>
     );
 };
 export default Form;
