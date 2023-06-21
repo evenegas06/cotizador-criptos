@@ -25,7 +25,7 @@ const InputSubmit = styled.input`
 
 const API_URL = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD';
 
-const Form = ({ setCoinsInfo }) => {
+const Form = ({ setCoins }) => {
     /* ----- States ----- */
     const [cryptos, setCryptos] = useState([]);
     const [error, setError] = useState(false);
@@ -57,6 +57,11 @@ const Form = ({ setCoinsInfo }) => {
         setCryptos(array_cryptos);
     };
 
+    /**
+     *  Validate selects elements and update error and coins states.
+     * 
+     * @param {Object} event 
+     */
     const onSubmit = (event) => {
         event.preventDefault();
 
@@ -66,7 +71,7 @@ const Form = ({ setCoinsInfo }) => {
         }
 
         setError(false);
-        setCoinsInfo({
+        setCoins({
             currency,
             crypto
         });

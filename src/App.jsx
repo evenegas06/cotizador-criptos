@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import CriptosImage from "./assets/img/imagen-criptos.png";
+import CryptosImage from "./assets/img/imagen-criptos.png";
 import Form from "./components/Form";
 import { useEffect, useState } from "react";
+import CryptoInfo from "./components/CryptoInfo";
 
 const Container = styled.div`
     max-width: 900px;
@@ -42,28 +43,48 @@ const Image = styled.img`
 
 function App() {
     /* ----- State ----- */
-    const [coins_info, setCoinsInfo] = useState({});
+    const [coins, setCoins] = useState({ currency: '', crypto: '' });
+    const [crypto_data, setCryptoData] = useState({});
 
     /* ----- Hooks ----- */
     useEffect(() => {
-        if (!Object.keys(coins_info).length) {
+        if (Object.values(coins).includes('')) {
             return;
         }
 
-        console.log(coins_info);
-    }, [coins_info]);
+        getCryptoData();
+    }, [coins]);
+
+    /**
+     *  Get info from API with specific currency and crypto.
+     */
+    const getCryptoData = async () => {
+        const { currency, crypto } = coins;
+        const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${currency}&tsyms=${crypto}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        // console.log(data.DISPLAY.USD.BTC);
+        setCryptoData(data.DISPLAY[currency][crypto]);
+        // console.log(data.DISPLAY[currency][crypto]);
+    };
 
     return (
         <Container>
             <Image
-                src={CriptosImage}
+                src={CryptosImage}
                 alt="Imagen de criptomonedas"
             />
 
             <div>
-                <Heading>Cotiza Criptomonedas al Instante</Heading>
+                <Heading>
+                    Cotiza Criptomonedas al Instante
+                </Heading>
 
-                <Form setCoinsInfo={setCoinsInfo} />
+                <Form setCoins={setCoins} />
+
+                {crypto_data.PRICE && <CryptoInfo data={crypto_data}/>}
             </div>
         </Container>
     );
