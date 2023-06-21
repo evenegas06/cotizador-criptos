@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+
 import CryptosImage from "./assets/img/imagen-criptos.png";
 import Form from "./components/Form";
-import { useEffect, useState } from "react";
 import CryptoInfo from "./components/CryptoInfo";
+import Spinner from "./components/Spinner";
 
 const Container = styled.div`
     max-width: 900px;
@@ -45,6 +47,7 @@ function App() {
     /* ----- State ----- */
     const [coins, setCoins] = useState({ currency: '', crypto: '' });
     const [crypto_data, setCryptoData] = useState({});
+    const [loading, setLoading] = useState(false);
 
     /* ----- Hooks ----- */
     useEffect(() => {
@@ -59,15 +62,18 @@ function App() {
      *  Get info from API with specific currency and crypto.
      */
     const getCryptoData = async () => {
+        setLoading(true);
+        setCryptoData({});
+
         const { currency, crypto } = coins;
-        const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${currency}&tsyms=${crypto}`;
+        const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${crypto}&tsyms=${currency}`;
 
         const response = await fetch(url);
         const data = await response.json();
 
-        // console.log(data.DISPLAY.USD.BTC);
-        setCryptoData(data.DISPLAY[currency][crypto]);
-        // console.log(data.DISPLAY[currency][crypto]);
+        console.log(data.DISPLAY);
+        setCryptoData(data.DISPLAY[crypto][currency]);
+        setLoading(false);
     };
 
     return (
@@ -84,7 +90,8 @@ function App() {
 
                 <Form setCoins={setCoins} />
 
-                {crypto_data.PRICE && <CryptoInfo data={crypto_data}/>}
+                {loading && <Spinner />}
+                {crypto_data.PRICE && <CryptoInfo data={crypto_data} />}
             </div>
         </Container>
     );
