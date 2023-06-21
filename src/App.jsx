@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import CriptosImage from "./assets/img/imagen-criptos.png";
 import Form from "./components/Form";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
     max-width: 900px;
@@ -40,6 +41,18 @@ const Image = styled.img`
 `;
 
 function App() {
+    /* ----- State ----- */
+    const [coins_info, setCoinsInfo] = useState({});
+
+    /* ----- Hooks ----- */
+    useEffect(() => {
+        if (!Object.keys(coins_info).length) {
+            return;
+        }
+
+        console.log(coins_info);
+    }, [coins_info]);
+
     return (
         <Container>
             <Image
@@ -50,7 +63,7 @@ function App() {
             <div>
                 <Heading>Cotiza Criptomonedas al Instante</Heading>
 
-                <Form />
+                <Form setCoinsInfo={setCoinsInfo} />
             </div>
         </Container>
     );

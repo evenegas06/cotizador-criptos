@@ -25,7 +25,7 @@ const InputSubmit = styled.input`
 
 const API_URL = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD';
 
-const Form = () => {
+const Form = ({ setCoinsInfo }) => {
     /* ----- States ----- */
     const [cryptos, setCryptos] = useState([]);
     const [error, setError] = useState(false);
@@ -66,6 +66,10 @@ const Form = () => {
         }
 
         setError(false);
+        setCoinsInfo({
+            currency,
+            crypto
+        });
     };
 
     return (
