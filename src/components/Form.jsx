@@ -30,6 +30,7 @@ const Form = () => {
 
     /* ----- Custom Hooks ----- */
     const [currency, SelectCurrency] = useSelectCurrency('Elige tu moneda', CURRENCIES);
+    const [crypto, SelectCrypto] = useSelectCurrency('Elige tu Criptomoneda', cryptos);
 
     /* ----- Hooks ----- */
     useEffect(() => {
@@ -48,7 +49,6 @@ const Form = () => {
                 id: item.CoinInfo.Name,
                 name: item.CoinInfo.FullName
             };
-
             return obj;
         });
 
@@ -58,6 +58,8 @@ const Form = () => {
     return (
         <form>
             <SelectCurrency />
+
+            <SelectCrypto />
 
             <InputSubmit
                 type="submit"
