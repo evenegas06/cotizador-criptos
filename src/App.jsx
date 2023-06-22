@@ -59,7 +59,7 @@ function App() {
     }, [coins]);
 
     /**
-     *  Get info from API with specific currency and crypto.
+     * Get info from API with specific currency and crypto.
      */
     const getCryptoData = async () => {
         setLoading(true);
@@ -71,7 +71,6 @@ function App() {
         const response = await fetch(url);
         const data = await response.json();
 
-        console.log(data.DISPLAY);
         setCryptoData(data.DISPLAY[crypto][currency]);
         setLoading(false);
     };
@@ -96,5 +95,4 @@ function App() {
         </Container>
     );
 }
-
 export default App;
