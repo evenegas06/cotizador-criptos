@@ -18,17 +18,21 @@ const Select = styled.select`
 `;
 
 /**
+ * Custom hook - Return the state value for the *select* element and its *jsx* representation.
  * 
- * @param {*} label 
- * @returns 
+ * @param {string} label Label for the *select* element.
+ * @param {array} currencies Array of objects with currency id and name. `[{ id: 'USD', name: 'Dollar' } ]`
+ *  
+ * @returns {array} [ state, selectCurrency ]
  */
 const useSelectCurrency = (label, currencies) => {
     /* ----- State ----- */
     const [state, setState] = useState('');
 
     /**
+     * Select *jsx* element.
      * 
-     * @returns 
+     * @returns {React.JSX.Element}
      */
     const SelectCurrency = () => {
         return (
